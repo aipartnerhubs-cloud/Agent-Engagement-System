@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🚀 Complete System v2.0 | Deploy Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --pb-blue: #0056d2;
+    --pb-blue-dark: #002966;
+    --pb-gold: #ffd700;
+    --pb-green: #25d366;
+    --pb-red: #ef4444;
+    --pb-orange: #f97316;
+    --pb-purple: #8b5cf6;
+    --cream: #fdfbf5;
+    --ink: #0a1628;
+    --ink-soft: #4a5568;
+    --code-bg: #1e293b;
+    --code-text: #e2e8f0;
+  }
+  body { background: var(--cream); color: var(--ink); font-family: 'Inter', sans-serif; line-height: 1.7; }
+  .container { max-width: 1000px; margin: 0 auto; padding: 30px 20px; }
+  
+  .hero {
+    background: linear-gradient(135deg, var(--pb-purple), var(--pb-blue), var(--pb-green));
+    background-size: 200% 200%;
+    color: white;
+    border-radius: 28px;
+    padding: 55px 38px;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(139, 92, 246, 0.4);
+    animation: gradientShift 8s ease infinite;
+  }
+  
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  
+  .hero::before {
+    content: '🚀';
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 150px;
+    opacity: 0.15;
+    line-height: 1;
+  }
+  
+  .badge {
+    display: inline-block;
+    background: var(--pb-gold);
+    color: var(--pb-blue-dark);
+    padding: 8px 22px;
+    border-radius: 30px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+  }
+  
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 48px;
+    font-weight: 900;
+    line-height: 1.0;
+    margin-bottom: 14px;
+    position: relative;
+    letter-spacing: -2px;
+  }
+  
+  .hero h1 .gold { color: var(--pb-gold); font-style: italic; }
+  
+  .hero p { font-size: 17px; opacity: 0.95; max-width: 700px; position: relative; }
+  
+  .features-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 22px;
+    flex-wrap: wrap;
+  }
+  
+  .feature-badge {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    padding: 8px 16px;
+    border-radius: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    border: 1px solid rgba(255,215,0,0.3);
+  }
+  
+  .feature-badge.new {
+    background: var(--pb-gold);
+    color: var(--pb-blue-dark);
+    border-color: var(--pb-gold);
+  }
+  
+  .section {
+    background: white;
+    border-radius: 22px;
+    padding: 36px 28px;
+    margin-bottom: 26px;
+    box-shadow: 0 8px 30px rgba(10, 22, 40, 0.06);
+  }
+  
+  .section h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 14px;
+  }
+  
+  .section h2 .accent { color: var(--pb-blue); font-style: italic; }
+  
+  .super-step {
+    background: linear-gradient(135deg, #fff, var(--cream));
+    border-radius: 20px;
+    padding: 30px 26px;
+    margin-bottom: 20px;
+    border-left: 8px solid var(--pb-blue);
+    box-shadow: 0 6px 20px rgba(0, 86, 210, 0.08);
+  }
+  
+  .super-step.golden {
+    border-left-color: var(--pb-gold);
+    background: linear-gradient(135deg, #fffbeb, #fef3c7);
+  }
+  
+  .super-step.success {
+    border-left-color: var(--pb-green);
+    background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+  }
+  
+  .super-step-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .super-num {
+    background: var(--pb-blue);
+    color: white;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 26px;
+    flex-shrink: 0;
+    box-shadow: 0 6px 16px rgba(0, 86, 210, 0.3);
+  }
+  
+  .super-step.golden .super-num { background: var(--pb-gold); color: var(--pb-blue-dark); }
+  .super-step.success .super-num { background: var(--pb-green); }
+  
+  .super-step h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--pb-blue-dark);
+    line-height: 1.2;
+  }
+  
+  .time-badge {
+    background: var(--pb-blue-dark);
+    color: var(--pb-gold);
+    padding: 4px 12px;
+    border-radius: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    margin-left: auto;
+  }
+  
+  ol, ul { margin-left: 24px; margin-top: 10px; }
+  li { margin-bottom: 8px; font-size: 14px; line-height: 1.8; }
+  li strong { color: var(--pb-blue-dark); }
+  
+  pre {
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 16px 20px;
+    border-radius: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    overflow-x: auto;
+    margin: 12px 0;
+    line-height: 1.7;
+    word-break: break-word;
+  }
+  
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    background: rgba(0, 86, 210, 0.1);
+    color: var(--pb-blue-dark);
+    padding: 3px 9px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  
+  pre code { background: transparent; color: var(--code-text); padding: 0; }
+  
+  .callout {
+    background: linear-gradient(135deg, #fffbeb, #fef3c7);
+    border-left: 5px solid var(--pb-gold);
+    padding: 16px 20px;
+    border-radius: 12px;
+    margin: 14px 0;
+    font-size: 13px;
+  }
+  
+  .callout.success {
+    background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+    border-left-color: var(--pb-green);
+  }
+  
+  .callout strong { color: var(--pb-blue-dark); }
+  
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin: 16px 0;
+  }
+  
+  .feature-card {
+    background: var(--cream);
+    border-radius: 14px;
+    padding: 18px;
+    border-left: 5px solid var(--pb-blue);
+  }
+  
+  .feature-card.new { border-left-color: var(--pb-gold); background: linear-gradient(135deg, #fffbeb, #fef3c7); }
+  
+  .feature-card h4 {
+    font-family: 'Fraunces', serif;
+    color: var(--pb-blue-dark);
+    margin-bottom: 6px;
+  }
+  
+  .feature-card p {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  
+  .endpoints-table {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 14px 0;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+  }
+  
+  .endpoints-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  
+  .endpoints-table th {
+    background: var(--pb-blue);
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+  
+  .endpoints-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e2e8f0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+  }
+  
+  .endpoints-table td.new {
+    background: linear-gradient(135deg, #fffbeb, #fef3c7);
+    font-weight: 700;
+  }
+  
+  .arrow-down {
+    text-align: center;
+    margin: 18px 0;
+    font-size: 32px;
+    color: var(--pb-blue);
+    font-weight: 900;
+  }
+  
+  @media (max-width: 700px) {
+    .hero h1 { font-size: 30px; }
+    .hero, .section { padding: 28px 22px; }
+    .section h2 { font-size: 22px; }
+    .super-step { padding: 24px 20px; }
+    .super-step h3 { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="badge">// COMPLETE SYSTEM v2.0 · 0 ERRORS · POSTERS INCLUDED</div>
+    <h1>Complete Marketing<br><span class="gold">+ Engagement</span> System!</h1>
+    <p>Bhai, sab kuch ek package mein - Daily messages + AI replies + 30 Marketing Posters + Posters Portal + Auto-delivery. Bas 2 API keys daalo, deploy karo, LIVE ho jaaye!</p>
+    
+    <div class="features-row">
+      <span class="feature-badge new">🆕 30 POSTERS</span>
+      <span class="feature-badge new">🆕 PORTAL</span>
+      <span class="feature-badge new">🆕 AUTO-DELIVERY</span>
+      <span class="feature-badge">✓ AI REPLIES</span>
+      <span class="feature-badge">✓ DAILY MORNING</span>
+      <span class="feature-badge">✓ 0 ERRORS</span>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="section">
+    <h2>🎯 Complete <span class="accent">v2.0 Features</span>:</h2>
+    
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>🌅 Daily Morning Messages</h4>
+        <p>Marathi + Hindi, 7 day-themes</p>
+      </div>
+      <div class="feature-card">
+        <h4>🤖 AI Webhook Replies</h4>
+        <p>Priya assistant (GPT-4)</p>
+      </div>
+      <div class="feature-card new">
+        <h4>🎨 Posters Portal 🆕</h4>
+        <p>30 AI prompts, 6 categories</p>
+      </div>
+      <div class="feature-card new">
+        <h4>🎨 Daily Poster Auto-Send 🆕</h4>
+        <p>9 AM daily, rotates</p>
+      </div>
+      <div class="feature-card">
+        <h4>📲 Interakt Integration</h4>
+        <p>WhatsApp Business API</p>
+      </div>
+      <div class="feature-card new">
+        <h4>🎨 6 Categories 🆕</h4>
+        <p>Car, Bike, Health, Family, Travel, Term</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEPLOYMENT STEPS -->
+  <div class="section">
+    <h2>🚀 6-Step <span class="accent">Deployment</span>:</h2>
+    
+    <!-- STEP 1 -->
+    <div class="super-step golden">
+      <div class="super-step-header">
+        <div class="super-num">1</div>
+        <h3>Download v2 Zip</h3>
+        <span class="time-badge">⏱ 2 MIN</span>
+      </div>
+      <ol>
+        <li>Download: <strong>Agent-Engagement-System-V2-COMPLETE.zip</strong></li>
+        <li>Extract karo phone/laptop pe</li>
+        <li>Folder mein <strong>14 files</strong> dikhne chahiye (9 Python + supporting)</li>
+      </ol>
+    </div>
+
+    <div class="arrow-down">↓</div>
+
+    <!-- STEP 2 -->
+    <div class="super-step">
+      <div class="super-step-header">
+        <div class="super-num">2</div>
+        <h3>Naya GitHub Repo (Optional)</h3>
+        <span class="time-badge">⏱ 5 MIN</span>
+      </div>
+      <p style="font-size: 14px; margin-bottom: 8px;">
+        <strong>Recommendation:</strong> Existing "Agent-Engagement-System" repo mein update karo (agar bana liya hai)
+      </p>
+      <ol>
+        <li>GitHub repo kholo (existing ya naya banao)</li>
+        <li>Saare files <strong>replace</strong> karo new v2 files se</li>
+        <li>Commit: <code>Upgrade to v2.0 with Posters</code></li>
+      </ol>
+      
+      <div class="callout">
+        <strong>💡 If naya repo:</strong> github.com → "+" → New repository → "Agent-Engagement-System-V2" → Private → Upload files → Commit
+      </div>
+    </div>
+
+    <div class="arrow-down">↓</div>
+
+    <!-- STEP 3 -->
+    <div class="super-step">
+      <div class="super-step-header">
+        <div class="super-num">3</div>
+        <h3>Railway Deploy</h3>
+        <span class="time-badge">⏱ 8 MIN</span>
+      </div>
+      <p style="font-size: 14px; margin-bottom: 8px;"><strong>Existing Railway service mein:</strong></p>
+      <ol>
+        <li>Railway dashboard → service kholo</li>
+        <li>Settings → Source → branch select karo (jo aapne push kiya)</li>
+        <li>Auto-redeploy hoga</li>
+        <li>Wait 2-3 min</li>
+      </ol>
+      
+      <p style="font-size: 14px; margin: 14px 0 8px;"><strong>Ya naya Railway service:</strong></p>
+      <ol>
+        <li>railway.app → + New Project</li>
+        <li>Deploy from GitHub repo</li>
+        <li>Select repo</li>
+      </ol>
+    </div>
+
+    <div class="arrow-down">↓</div>
+
+    <!-- STEP 4 -->
+    <div class="super-step golden">
+      <div class="super-step-header">
+        <div class="super-num">4</div>
+        <h3>2 API Keys Add Karo (CRITICAL!)</h3>
+        <span class="time-badge">⏱ 5 MIN</span>
+      </div>
+      
+      <p style="font-size: 14px; margin-bottom: 10px;">Railway → Variables → Add:</p>
+      
+      <pre><code>INTERAKT_API_KEY = (your Interakt key from interakt.shop)
+OPENAI_API_KEY = (your OpenAI key sk-proj-...)</code></pre>
+      
+      <div class="callout">
+        <strong>⚠️ Pre-set in code (no need to add):</strong>
+        <ul style="margin-top: 6px; font-size: 12px;">
+          <li>RM_NAME = Prashant Chandratre</li>
+          <li>RM_PHONE = +91 7709446589</li>
+          <li>MORNING_API_KEY = pbp-secure-2026</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="arrow-down">↓</div>
+
+    <!-- STEP 5 -->
+    <div class="super-step success">
+      <div class="super-step-header">
+        <div class="super-num">5</div>
+        <h3>3 Quick Tests</h3>
+        <span class="time-badge">⏱ 5 MIN</span>
+      </div>
+      
+      <p><strong>Test 1: Health Check</strong></p>
+      <pre><code>https://YOUR-APP.up.railway.app/</code></pre>
+      <p style="font-size: 13px;">✅ JSON response with all features</p>
+      
+      <p style="margin-top: 10px;"><strong>Test 2: WhatsApp Test 🎯</strong></p>
+      <pre><code>https://YOUR-APP.up.railway.app/api/test-message?key=pbp-secure-2026&phone=917709446589&name=Prashant&lang=marathi</code></pre>
+      <p style="font-size: 13px;">✅ WhatsApp pe Marathi morning message receive!</p>
+      
+      <p style="margin-top: 10px;"><strong>Test 3: Posters Portal 🆕</strong></p>
+      <pre><code>https://YOUR-APP.up.railway.app/posters</code></pre>
+      <p style="font-size: 13px;">✅ Beautiful portal with 30 posters!</p>
+    </div>
+
+    <div class="arrow-down">↓</div>
+
+    <!-- STEP 6 -->
+    <div class="super-step">
+      <div class="super-step-header">
+        <div class="super-num">6</div>
+        <h3>2 Cron Jobs Setup (cron-job.org)</h3>
+        <span class="time-badge">⏱ 10 MIN</span>
+      </div>
+      
+      <p style="font-size: 14px;"><strong>Cron 1: Daily Morning Messages (8 AM)</strong></p>
+      <pre><code>https://YOUR-APP/api/send-morning-messages?key=pbp-secure-2026&phase=1</code></pre>
+      <p style="font-size: 12px;">Schedule: 0 8 * * * | Timezone: Asia/Kolkata</p>
+      
+      <p style="font-size: 14px; margin-top: 14px;"><strong>Cron 2: Daily Poster (9 AM) 🆕</strong></p>
+      <pre><code>https://YOUR-APP/api/send-daily-poster?key=pbp-secure-2026&phase=1</code></pre>
+      <p style="font-size: 12px;">Schedule: 0 9 * * * | Timezone: Asia/Kolkata</p>
+      
+      <div class="callout success">
+        <strong>🎉 Done!</strong> Daily 8 AM message + 9 AM poster auto-send hoga!
+      </div>
+    </div>
+  </div>
+
+  <!-- ENDPOINTS -->
+  <div class="section">
+    <h2>📡 All <span class="accent">API Endpoints</span>:</h2>
+    
+    <div class="endpoints-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Endpoint</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>GET /</td>
+            <td>Health check</td>
+          </tr>
+          <tr>
+            <td>GET /api/config-check</td>
+            <td>Verify env vars</td>
+          </tr>
+          <tr>
+            <td>POST /webhook/interakt</td>
+            <td>Incoming messages</td>
+          </tr>
+          <tr>
+            <td>GET /api/send-morning-messages</td>
+            <td>Daily 8 AM trigger</td>
+          </tr>
+          <tr>
+            <td class="new">GET /api/send-daily-poster 🆕</td>
+            <td class="new">Daily 9 AM poster</td>
+          </tr>
+          <tr>
+            <td class="new">GET /posters 🆕</td>
+            <td class="new">Posters portal (web)</td>
+          </tr>
+          <tr>
+            <td class="new">GET /api/posters 🆕</td>
+            <td class="new">Posters list (JSON)</td>
+          </tr>
+          <tr>
+            <td>GET /api/test-message</td>
+            <td>Manual test</td>
+          </tr>
+          <tr>
+            <td>GET /api/test-ai-reply</td>
+            <td>AI test only</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- WHAT AGENTS GET -->
+  <div class="section" style="background: linear-gradient(135deg, var(--pb-blue-dark), var(--pb-blue)); color: white;">
+    <h2 style="color: white;">📱 What <span style="color: var(--pb-gold); font-style: italic;">Agents Get</span>:</h2>
+    
+    <h3 style="font-family: 'Fraunces', serif; margin: 14px 0 8px;">🌅 Every Morning 8 AM:</h3>
+    <ul style="font-size: 14px;">
+      <li>Personalized Marathi/Hindi motivation message</li>
+      <li>Day-specific challenge (Monday=Goals, Tuesday=Renewal, etc.)</li>
+      <li>Specific tips and scripts</li>
+    </ul>
+    
+    <h3 style="font-family: 'Fraunces', serif; margin: 18px 0 8px;">🎨 Every Morning 9 AM (NEW!):</h3>
+    <ul style="font-size: 14px;">
+      <li>Today's marketing poster prompt</li>
+      <li>Direct link to portal</li>
+      <li>FREE AI tool name (Ideogram/Designer)</li>
+      <li>Step-by-step instructions</li>
+    </ul>
+    
+    <h3 style="font-family: 'Fraunces', serif; margin: 18px 0 8px;">🌐 Anytime via Portal:</h3>
+    <ul style="font-size: 14px;">
+      <li>Browse all 30 posters</li>
+      <li>Filter by category</li>
+      <li>Copy any prompt</li>
+      <li>Direct link to AI tools</li>
+    </ul>
+    
+    <h3 style="font-family: 'Fraunces', serif; margin: 18px 0 8px;">🤖 When Message Aata Hai:</h3>
+    <ul style="font-size: 14px;">
+      <li>AI Priya intelligent reply</li>
+      <li>Language matches (Marathi/Hindi)</li>
+      <li>Auto-escalation for buying intent</li>
+    </ul>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="section" style="background: linear-gradient(135deg, #ecfdf5, #d1fae5); border: 2px solid var(--pb-green);">
+    <h2 style="color: #047857;">⏰ Today's <span class="accent">Timeline</span>:</h2>
+    
+    <ol style="font-size: 14px; line-height: 2; margin-left: 22px; margin-top: 14px;">
+      <li><strong>Now:</strong> v2 zip download (2 min)</li>
+      <li><strong>+5 min:</strong> Files upload GitHub (existing ya naya repo)</li>
+      <li><strong>+8 min:</strong> Railway deploy (auto-redeploy)</li>
+      <li><strong>+13 min:</strong> 2 API keys add</li>
+      <li><strong>+18 min:</strong> Test URLs hit karo</li>
+      <li><strong>+20 min:</strong> ✅ Self-test WhatsApp message receive!</li>
+      <li><strong>+25 min:</strong> Posters portal browse karo</li>
+      <li><strong>+30 min:</strong> 2 Cron jobs setup</li>
+      <li><strong>Kal 8 AM:</strong> Morning message receive! 🌅</li>
+      <li><strong>Kal 9 AM:</strong> Daily poster prompt receive! 🎨</li>
+    </ol>
+  </div>
+
+  <!-- FINAL CHECK -->
+  <div class="section">
+    <h2>✅ <span class="accent">Quality</span> Verified:</h2>
+    
+    <ul style="font-size: 14px; line-height: 2;">
+      <li>✅ <strong>9 Python files</strong> - 0 syntax errors</li>
+      <li>✅ <strong>30 posters</strong> - Library tested</li>
+      <li>✅ <strong>6 categories</strong> - All working</li>
+      <li>✅ <strong>Random poster</strong> - Function tested</li>
+      <li>✅ <strong>Daily messages</strong> - Marathi+Hindi tested</li>
+      <li>✅ <strong>Mobile responsive</strong> - Portal works on phone</li>
+      <li>✅ <strong>Modular architecture</strong> - Easy to extend</li>
+    </ul>
+  </div>
+
+</div>
+
+</body>
+</html>
