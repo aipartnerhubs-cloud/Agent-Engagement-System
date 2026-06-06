@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📱 WhatsApp Status Factory - PB Partners</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Poppins', -apple-system, system-ui, sans-serif;
+  background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 50%, #db2777 100%);
+  min-height: 100vh;
+  padding: 16px 12px 80px;
+  color: #1f2937;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  color: white;
+  margin-bottom: 16px;
+}
+.header h1 { font-size: 22px; font-weight: 900; margin-bottom: 4px; }
+.header p { font-size: 12px; opacity: 0.9; }
+
+/* Agent Bar */
+.agent-bar {
+  background: white;
+  border-radius: 16px;
+  padding: 12px;
+  margin-bottom: 16px;
+  max-width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+.agent-label {
+  font-size: 12px;
+  font-weight: 800;
+  color: #475569;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.agent-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #fbbf24;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  outline: none;
+  margin-bottom: 6px;
+  font-family: inherit;
+}
+.agent-input:focus { border-color: #f59e0b; }
+
+/* Category Tabs - Horizontal Scroll */
+.tabs-wrap {
+  max-width: 360px;
+  margin: 0 auto 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.tabs-wrap::-webkit-scrollbar { display: none; }
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  padding: 4px 0;
+  white-space: nowrap;
+  width: max-content;
+  margin: 0 auto;
+}
+
+.tab {
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(10px);
+  color: white;
+  border: 2px solid rgba(255,255,255,0.3);
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+.tab.active {
+  background: white;
+  color: #7c3aed;
+  border-color: white;
+}
+
+/* Poster */
+.poster {
+  max-width: 340px;
+  margin: 0 auto;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 25px 70px rgba(0,0,0,0.4);
+  background: white;
+}
+
+.hero {
+  padding: 20px 16px 12px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before, .hero::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+}
+.hero::before { top: -50px; right: -50px; width: 140px; height: 140px; }
+.hero::after { bottom: -30px; left: -30px; width: 100px; height: 100px; }
+
+.hero-content { position: relative; z-index: 10; }
+
+.badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(10px);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+.illustration {
+  width: 220px; height: 140px;
+  margin: 6px auto;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+}
+
+.headline {
+  color: white;
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 4px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+.subline {
+  color: #fde047;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+/* Hero backgrounds by category */
+.hero-car { background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%); }
+.hero-bike { background: linear-gradient(135deg, #ef4444 0%, #991b1b 100%); }
+.hero-commercial { background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%); }
+.hero-health { background: linear-gradient(135deg, #ec4899 0%, #9d174d 100%); }
+.hero-life { background: linear-gradient(135deg, #10b981 0%, #065f46 100%); }
+.hero-term { background: linear-gradient(135deg, #8b5cf6 0%, #5b21b6 100%); }
+
+/* Content */
+.content { padding: 16px 16px 14px; background: white; }
+
+.benefits {
+  background: #f0fdf4;
+  border-left: 4px solid #10b981;
+  padding: 12px 14px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+.benefit {
+  font-size: 14px;
+  font-weight: 700;
+  color: #064e3b;
+  padding: 2px 0;
+  display: flex;
+  gap: 8px;
+}
+
+.cta {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 800;
+  color: #1e293b;
+  padding: 8px 10px;
+  background: #fef3c7;
+  border-radius: 8px;
+  border: 2px dashed #f59e0b;
+  margin-bottom: 10px;
+}
+
+.contact-card {
+  background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+  color: white;
+  padding: 12px 14px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
+}
+.contact-name {
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 1.1;
+}
+.contact-mobile {
+  font-size: 20px;
+  font-weight: 900;
+  color: #fde047;
+  margin: 3px 0;
+  letter-spacing: 0.5px;
+}
+.contact-brand {
+  font-size: 11px;
+  font-weight: 700;
+  opacity: 0.9;
+}
+.contact-tagline {
+  font-size: 10px;
+  font-style: italic;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+
+/* Swipe controls */
+.swipe-controls {
+  max-width: 340px;
+  margin: 14px auto 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+.swipe-btn {
+  background: rgba(255,255,255,0.25);
+  border: 2px solid rgba(255,255,255,0.4);
+  color: white;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: 900;
+  cursor: pointer;
+  font-family: inherit;
+}
+.swipe-btn:active { transform: scale(0.92); }
+.swipe-btn:disabled { opacity: 0.3; }
+
+.indicator {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin: 10px 0;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+}
+.dot.active { background: white; width: 24px; border-radius: 4px; }
+
+/* Action Buttons */
+.actions {
+  max-width: 340px;
+  margin: 16px auto 0;
+}
+.btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
+  margin-bottom: 8px;
+  font-family: inherit;
+  color: white;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+.btn:active { transform: scale(0.97); }
+
+.btn-whatsapp {
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  font-size: 17px;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 6px 20px rgba(37,211,102,0.5); }
+  50% { box-shadow: 0 10px 30px rgba(37,211,102,0.8); }
+}
+.btn-download { background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%); }
+.btn-copy { background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); }
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #16a34a;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-weight: 700;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  z-index: 100;
+  display: none;
+  font-size: 14px;
+}
+.toast.show { display: block; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📱 WhatsApp Status Factory</h1>
+  <p>🏢 PB Partners | Ek Rishta Bharose Ka</p>
+</div>
+
+<!-- Agent Bar -->
+<div class="agent-bar">
+  <div class="agent-label">✏️ Apna Naam & Mobile (Ek Baar):</div>
+  <input type="text" id="inputName" class="agent-input" value="Prashant Chandratre" placeholder="Aapka Naam">
+  <input type="tel" id="inputMobile" class="agent-input" value="+91 7709446589" placeholder="Mobile Number">
+</div>
+
+<!-- Category Tabs -->
+<div class="tabs-wrap">
+  <div class="tabs" id="tabs"></div>
+</div>
+
+<!-- Dots Indicator -->
+<div class="dots" id="dots"></div>
+
+<!-- Poster Container -->
+<div id="posterContainer"></div>
+
+<!-- Swipe Controls -->
+<div class="swipe-controls">
+  <button class="swipe-btn" id="prevBtn" onclick="prev()">‹</button>
+  <div class="indicator"><span id="currentIdx">1</span> / 6</div>
+  <button class="swipe-btn" id="nextBtn" onclick="next()">›</button>
+</div>
+
+<!-- Action Buttons -->
+<div class="actions">
+  <button class="btn btn-whatsapp" onclick="shareWA()">
+    📲 Share to WhatsApp
+  </button>
+  <button class="btn btn-download" onclick="downloadIt()">
+    💾 Download as Image
+  </button>
+  <button class="btn btn-copy" onclick="copyText()">
+    📋 Copy Message Text
+  </button>
+</div>
+
+<div class="toast" id="toast">Done!</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+// ============= SVG ILLUSTRATIONS =============
+const svgs = {
+  car: `<svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="150" cy="170" rx="120" ry="8" fill="rgba(0,0,0,0.2)"/>
+    <path d="M 50 130 L 50 100 Q 50 90 60 88 L 90 75 Q 95 70 105 70 L 195 70 Q 205 70 210 75 L 240 88 Q 250 90 250 100 L 250 130 Z" fill="#dc2626" stroke="#991b1b" stroke-width="2"/>
+    <path d="M 95 75 L 110 50 Q 115 45 125 45 L 175 45 Q 185 45 190 50 L 205 75 Z" fill="#1e40af" stroke="#1e3a8a" stroke-width="2"/>
+    <line x1="150" y1="45" x2="150" y2="75" stroke="#1e3a8a" stroke-width="3"/>
+    <rect x="50" y="125" width="200" height="20" fill="#7f1d1d"/>
+    <ellipse cx="245" cy="105" rx="8" ry="6" fill="#fde047"/>
+    <rect x="140" y="100" width="20" height="3" rx="1" fill="#7f1d1d"/>
+    <circle cx="85" cy="145" r="22" fill="#1f2937"/>
+    <circle cx="85" cy="145" r="15" fill="#4b5563"/>
+    <circle cx="85" cy="145" r="6" fill="#9ca3af"/>
+    <circle cx="215" cy="145" r="22" fill="#1f2937"/>
+    <circle cx="215" cy="145" r="15" fill="#4b5563"/>
+    <circle cx="215" cy="145" r="6" fill="#9ca3af"/>
+    <circle cx="40" cy="50" r="20" fill="white" opacity="0.95"/>
+    <path d="M 40 38 L 50 42 L 50 53 Q 50 60 40 65 Q 30 60 30 53 L 30 42 Z" fill="#10b981"/>
+    <path d="M 35 50 L 39 54 L 46 46" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  </svg>`,
+  
+  bike: `<svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="150" cy="170" rx="120" ry="8" fill="rgba(0,0,0,0.2)"/>
+    <!-- Bike frame -->
+    <path d="M 80 140 L 130 95 L 200 95 L 220 140" stroke="#1e293b" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M 130 95 L 170 140" stroke="#1e293b" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <!-- Fuel tank -->
+    <ellipse cx="155" cy="95" rx="35" ry="18" fill="#0ea5e9" stroke="#0369a1" stroke-width="2"/>
+    <ellipse cx="155" cy="92" rx="25" ry="10" fill="#38bdf8"/>
+    <!-- Seat -->
+    <path d="M 175 90 Q 195 85 210 92 L 205 100 Q 195 95 175 100 Z" fill="#1e293b"/>
+    <!-- Handlebar -->
+    <path d="M 115 80 L 125 95" stroke="#1e293b" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="113" cy="78" r="5" fill="#374151"/>
+    <!-- Headlight -->
+    <circle cx="125" cy="98" r="8" fill="#fde047"/>
+    <circle cx="125" cy="98" r="4" fill="#fef9c3"/>
+    <!-- Wheels -->
+    <circle cx="80" cy="140" r="28" fill="#1f2937"/>
+    <circle cx="80" cy="140" r="20" fill="#4b5563"/>
+    <circle cx="80" cy="140" r="6" fill="#9ca3af"/>
+    <circle cx="220" cy="140" r="28" fill="#1f2937"/>
+    <circle cx="220" cy="140" r="20" fill="#4b5563"/>
+    <circle cx="220" cy="140" r="6" fill="#9ca3af"/>
+    <!-- Spokes -->
+    <line x1="80" y1="115" x2="80" y2="165" stroke="#6b7280" stroke-width="1.5"/>
+    <line x1="55" y1="140" x2="105" y2="140" stroke="#6b7280" stroke-width="1.5"/>
+    <line x1="220" y1="115" x2="220" y2="165" stroke="#6b7280" stroke-width="1.5"/>
+    <line x1="195" y1="140" x2="245" y2="140" stroke="#6b7280" stroke-width="1.5"/>
+    <!-- Shield -->
+    <circle cx="40" cy="50" r="20" fill="white" opacity="0.95"/>
+    <path d="M 40 38 L 50 42 L 50 53 Q 50 60 40 65 Q 30 60 30 53 L 30 42 Z" fill="#10b981"/>
+    <path d="M 35 50 L 39 54 L 46 46" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  </svg>`,
+  
+  commercial: `<svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="150" cy="170" rx="130" ry="8" fill="rgba(0,0,0,0.2)"/>
+    <!-- Truck cabin -->
+    <path d="M 40 130 L 40 80 Q 40 75 45 75 L 110 75 Q 115 75 115 80 L 115 130 Z" fill="#1e40af" stroke="#1e3a8a" stroke-width="2"/>
+    <!-- Cabin window -->
+    <rect x="50" y="82" width="55" height="35" fill="#7dd3fc" stroke="#0284c7" stroke-width="2" rx="3"/>
+    <line x1="78" y1="82" x2="78" y2="117" stroke="#0284c7" stroke-width="2"/>
+    <!-- Container -->
+    <rect x="115" y="55" width="145" height="75" fill="#f59e0b" stroke="#b45309" stroke-width="2" rx="4"/>
+    <rect x="125" y="65" width="125" height="55" fill="#fbbf24" rx="3"/>
+    <!-- Container lines -->
+    <line x1="165" y1="65" x2="165" y2="120" stroke="#b45309" stroke-width="2"/>
+    <line x1="210" y1="65" x2="210" y2="120" stroke="#b45309" stroke-width="2"/>
+    <!-- Bottom -->
+    <rect x="40" y="125" width="220" height="8" fill="#7f1d1d"/>
+    <!-- Headlight -->
+    <ellipse cx="42" cy="100" rx="5" ry="4" fill="#fde047"/>
+    <!-- Wheels -->
+    <circle cx="75" cy="140" r="20" fill="#1f2937"/>
+    <circle cx="75" cy="140" r="13" fill="#4b5563"/>
+    <circle cx="75" cy="140" r="5" fill="#9ca3af"/>
+    <circle cx="170" cy="140" r="20" fill="#1f2937"/>
+    <circle cx="170" cy="140" r="13" fill="#4b5563"/>
+    <circle cx="170" cy="140" r="5" fill="#9ca3af"/>
+    <circle cx="220" cy="140" r="20" fill="#1f2937"/>
+    <circle cx="220" cy="140" r="13" fill="#4b5563"/>
+    <circle cx="220" cy="140" r="5" fill="#9ca3af"/>
+    <!-- Shield -->
+    <circle cx="40" cy="40" r="18" fill="white" opacity="0.95"/>
+    <path d="M 40 30 L 49 33 L 49 43 Q 49 50 40 54 Q 31 50 31 43 L 31 33 Z" fill="#10b981"/>
+    <path d="M 36 42 L 39 45 L 45 38" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </svg>`,
+  
+  health: `<svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="150" cy="170" rx="120" ry="8" fill="rgba(0,0,0,0.2)"/>
+    <!-- Hospital building -->
+    <rect x="60" y="55" width="180" height="100" fill="white" stroke="#e2e8f0" stroke-width="2" rx="4"/>
+    <rect x="60" y="55" width="180" height="20" fill="#ec4899" rx="4"/>
+    <!-- Roof cross -->
+    <rect x="142" y="35" width="16" height="40" fill="white"/>
+    <rect x="130" y="47" width="40" height="16" fill="white"/>
+    <!-- Windows -->
+    <rect x="75" y="85" width="25" height="25" fill="#7dd3fc" stroke="#0284c7" stroke-width="1"/>
+    <rect x="115" y="85" width="25" height="25" fill="#7dd3fc" stroke="#0284c7" stroke-width="1"/>
+    <rect x="160" y="85" width="25" height="25" fill="#7dd3fc" stroke="#0284c7" stroke-width="1"/>
+    <rect x="200" y="85" width="25" height="25" fill="#7dd3fc" stroke="#0284c7" stroke-width="1"/>
+    <rect x="75" y="115" width="25" height="25" fill="#7dd3fc" stroke="#0284c7" stroke-width="1"/>
+    <rect x="115" y="115" width="25" height="25" fill="#7dd3fc" stroke="#0284c7" stroke-width="1"/>
+    <rect x="200" y="115" width="25" height="25" fill="#7dd3fc" stroke="#0284c7" stroke-width="1"/>
+    <!-- Door -->
+    <rect x="160" y="120" width="28" height="35" fill="#831843" rx="2"/>
+    <circle cx="184" cy="138" r="2" fill="#fde047"/>
+    <!-- HOSPITAL text -->
+    <text x="150" y="70" font-size="11" font-weight="900" fill="white" text-anchor="middle">HOSPITAL</text>
+    <!-- Big heart on left -->
+    <path d="M 25 75 Q 15 65 15 75 Q 15 85 25 95 Q 35 85 35 75 Q 35 65 25 75 Z" fill="#ef4444"/>
+    <text x="25" y="80" font-size="14" fill="white" text-anchor="middle">+</text>
+    <!-- Medical kit on right -->
+    <rect x="255" y="105" width="30" height="22" fill="#dc2626" rx="2"/>
+    <rect x="262" y="100" width="16" height="5" fill="#dc2626"/>
+    <rect x="266" y="111" width="8" height="10" fill="white"/>
+    <rect x="262" y="113" width="16" height="5" fill="white"/>
+  </svg>`,
+  
+  life: `<svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="150" cy="170" rx="120" ry="8" fill="rgba(0,0,0,0.2)"/>
+    <!-- Sun -->
+    <circle cx="250" cy="35" r="18" fill="#fde047"/>
+    <g stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round">
+      <line x1="250" y1="8" x2="250" y2="13"/>
+      <line x1="250" y1="57" x2="250" y2="62"/>
+      <line x1="223" y1="35" x2="228" y2="35"/>
+      <line x1="272" y1="35" x2="277" y2="35"/>
+    </g>
+    <!-- Father -->
+    <circle cx="90" cy="65" r="18" fill="#fbbf24"/>
+    <path d="M 75 70 Q 90 75 105 70 L 100 95 L 80 95 Z" fill="#1e293b"/>
+    <rect x="70" y="90" width="40" height="55" fill="#3b82f6" rx="4"/>
+    <rect x="78" y="145" width="10" height="20" fill="#1e293b"/>
+    <rect x="92" y="145" width="10" height="20" fill="#1e293b"/>
+    <!-- Mother -->
+    <circle cx="150" cy="68" r="17" fill="#f9a8d4"/>
+    <path d="M 135 70 Q 150 90 165 70 L 150 60 Z" fill="#831843"/>
+    <path d="M 135 88 L 140 95 L 160 95 L 165 88 L 175 145 L 125 145 Z" fill="#ec4899"/>
+    <rect x="138" y="145" width="10" height="20" fill="#1e293b"/>
+    <rect x="152" y="145" width="10" height="20" fill="#1e293b"/>
+    <!-- Child -->
+    <circle cx="205" cy="80" r="14" fill="#fde68a"/>
+    <path d="M 192 82 Q 205 78 218 82 L 215 100 L 195 100 Z" fill="#1e293b"/>
+    <rect x="190" y="95" width="30" height="40" fill="#fbbf24" rx="3"/>
+    <rect x="195" y="135" width="8" height="15" fill="#1e293b"/>
+    <rect x="207" y="135" width="8" height="15" fill="#1e293b"/>
+    <!-- Heart connecting -->
+    <path d="M 150 30 Q 142 25 142 32 Q 142 38 150 45 Q 158 38 158 32 Q 158 25 150 30 Z" fill="#ef4444"/>
+  </svg>`,
+  
+  term: `<svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="150" cy="170" rx="120" ry="8" fill="rgba(0,0,0,0.2)"/>
+    <!-- Big shield -->
+    <path d="M 150 25 L 220 50 L 220 100 Q 220 140 150 165 Q 80 140 80 100 L 80 50 Z" 
+          fill="white" stroke="#7c3aed" stroke-width="3"/>
+    <path d="M 150 35 L 210 55 L 210 100 Q 210 132 150 153 Q 90 132 90 100 L 90 55 Z" 
+          fill="url(#shieldGrad)"/>
+    <defs>
+      <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#8b5cf6"/>
+        <stop offset="100%" stop-color="#6d28d9"/>
+      </linearGradient>
+    </defs>
+    <!-- Checkmark -->
+    <path d="M 115 95 L 140 120 L 185 75" stroke="white" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Decorative stars -->
+    <text x="50" y="60" font-size="22" fill="#fde047">★</text>
+    <text x="245" y="65" font-size="18" fill="#fde047">★</text>
+    <text x="40" y="130" font-size="16" fill="#fde047">★</text>
+    <text x="255" y="130" font-size="20" fill="#fde047">★</text>
+    <!-- Rays -->
+    <g stroke="#fde047" stroke-width="2" opacity="0.7" stroke-linecap="round">
+      <line x1="150" y1="10" x2="150" y2="20"/>
+      <line x1="70" y1="30" x2="80" y2="40"/>
+      <line x1="230" y1="30" x2="220" y2="40"/>
+    </g>
+  </svg>`
+};
+
+// ============= POSTERS DATA =============
+const posters = [
+  {
+    id: 1, key: 'car', category: 'CAR INSURANCE',
+    emoji: '🚗', heroClass: 'hero-car',
+    headline: 'Renew Karein Aaj!',
+    subline: '⚡ Tension-Free Driving',
+    benefits: ['Cashless Claim Settlement', 'Best Price Quote', '24×7 Customer Support'],
+    cta: '💡 Free Quote Ke Liye Contact Karein!',
+    waMessage: `🚗 *Car Insurance Renewal*
+
+Aapki car ka insurance protect karna ab aur bhi easy!
+
+✅ Cashless Claim Settlement
+✅ Best Price Quote
+✅ 24×7 Customer Support
+
+Free quote ke liye message karein!
+
+📞 {NAME}
+📱 {MOBILE}
+
+_Ek Rishta Bharose Ka_ 🤝
+🏢 PB Partners`
+  },
+  {
+    id: 2, key: 'bike', category: 'BIKE INSURANCE',
+    emoji: '🏍️', heroClass: 'hero-bike',
+    headline: 'Safe Ride, Safe Life!',
+    subline: '💰 Premium ₹538/yr',
+    benefits: ['Third Party + OD Cover', 'Personal Accident Cover', 'Quick Online Renewal'],
+    cta: '💡 Instant Policy - Call Karein!',
+    waMessage: `🏍️ *Bike Insurance Made Easy!*
+
+Apni bike ka insurance ab sirf chand minutes mein!
+
+✅ Third Party + Own Damage
+✅ Personal Accident Cover
+✅ Quick Online Renewal
+💰 Premium starts at ₹538/year
+
+Instant policy ke liye call karein!
+
+📞 {NAME}
+📱 {MOBILE}
+
+_Ek Rishta Bharose Ka_ 🤝
+🏢 PB Partners`
+  },
+  {
+    id: 3, key: 'commercial', category: 'COMMERCIAL VEHICLE',
+    emoji: '🚛', heroClass: 'hero-commercial',
+    headline: 'Truck-Tempo Insurance!',
+    subline: '🚀 Business Protection',
+    benefits: ['Goods in Transit Cover', 'Driver Cover Included', 'Quick Claim Settlement'],
+    cta: '💡 Special Discount Available!',
+    waMessage: `🚛 *Commercial Vehicle Insurance!*
+
+Truck, Tempo, Tractor, Auto - sabhi commercial vehicles ke liye!
+
+✅ Goods in Transit Cover
+✅ Driver/Conductor Cover
+✅ Quick Claim Settlement
+💰 Special discount available
+
+Business owners ke liye exclusive plans!
+
+📞 {NAME}
+📱 {MOBILE}
+
+_Ek Rishta Bharose Ka_ 🤝
+🏢 PB Partners`
+  },
+  {
+    id: 4, key: 'health', category: 'HEALTH INSURANCE',
+    emoji: '❤️', heroClass: 'hero-health',
+    headline: 'Health Hai To Wealth!',
+    subline: '🏥 Cashless Treatment',
+    benefits: ['₹5 Lakh Family Cover', '10,000+ Network Hospitals', 'Pre-existing OK'],
+    cta: '💡 FREE Plan Comparison!',
+    waMessage: `❤️ *Health Insurance - Aapki Suraksha!*
+
+Medical bills tension free karein aaj!
+
+✅ ₹5 Lakh Family Cover
+✅ 10,000+ Network Hospitals
+✅ Pre-existing Diseases Covered
+✅ Cashless Treatment
+
+FREE comparison ke liye contact karein!
+
+📞 {NAME}
+📱 {MOBILE}
+
+_Ek Rishta Bharose Ka_ 🤝
+🏢 PB Partners`
+  },
+  {
+    id: 5, key: 'life', category: 'LIFE INSURANCE',
+    emoji: '👨‍👩‍👧', heroClass: 'hero-life',
+    headline: 'Family Future Secure!',
+    subline: '💝 Aapke Baad Bhi',
+    benefits: ['₹1 Crore Life Cover', 'Maturity + Death Benefit', 'Tax Benefits 80C'],
+    cta: '💡 Family Ki Suraksha Aaj!',
+    waMessage: `👨‍👩‍👧 *Life Insurance - Family Ki Suraksha!*
+
+Aapke baad bhi family ki zaroorat poori ho!
+
+✅ ₹1 Crore Life Cover
+✅ Maturity + Death Benefit
+✅ Tax Benefits 80C + 10(10D)
+✅ Premium Just ₹500/month
+
+Family ke future ke liye aaj action lein!
+
+📞 {NAME}
+📱 {MOBILE}
+
+_Ek Rishta Bharose Ka_ 🤝
+🏢 PB Partners`
+  },
+  {
+    id: 6, key: 'term', category: 'TERM INSURANCE',
+    emoji: '🛡️', heroClass: 'hero-term',
+    headline: 'Pure Protection!',
+    subline: '⚡ Low Cost, Big Cover',
+    benefits: ['₹1 Cr @ ₹500/month', '99% Claim Settlement', 'Online Easy Process'],
+    cta: '💡 Sabse Sasti Suraksha!',
+    waMessage: `🛡️ *Term Insurance - Pure Protection!*
+
+Sabse kam price mein sabse zyada cover!
+
+✅ ₹1 Crore Cover @ ₹500/month
+✅ 99% Claim Settlement Ratio
+✅ Online Hassle-Free Process
+✅ Tax Benefit 80C
+
+Apni family ka future safe karein!
+
+📞 {NAME}
+📱 {MOBILE}
+
+_Ek Rishta Bharose Ka_ 🤝
+🏢 PB Partners`
+  }
+];
+
+let currentIdx = 0;
+
+// ============= INIT =============
+function getAgent() {
+  return {
+    name: document.getElementById('inputName').value.trim() || 'Your Name',
+    mobile: document.getElementById('inputMobile').value.trim() || '+91 XXXXXXXXXX'
+  };
+}
+
+function buildTabs() {
+  const tabsEl = document.getElementById('tabs');
+  tabsEl.innerHTML = posters.map((p, i) => 
+    `<button class="tab ${i === currentIdx ? 'active' : ''}" onclick="goTo(${i})">${p.emoji} ${p.category.split(' ')[0]}</button>`
+  ).join('');
+}
+
+function buildDots() {
+  const dotsEl = document.getElementById('dots');
+  dotsEl.innerHTML = posters.map((_, i) => 
+    `<div class="dot ${i === currentIdx ? 'active' : ''}"></div>`
+  ).join('');
+}
+
+function renderPoster() {
+  const p = posters[currentIdx];
+  const agent = getAgent();
+  
+  const html = `
+    <div class="poster" id="posterCanvas">
+      <div class="hero ${p.heroClass}">
+        <div class="hero-content">
+          <div class="badge">${p.emoji} ${p.category}</div>
+          <div class="illustration">${svgs[p.key]}</div>
+          <div class="headline">${p.headline}</div>
+          <div class="subline">${p.subline}</div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="benefits">
+          ${p.benefits.map(b => `<div class="benefit">✅ <span>${b}</span></div>`).join('')}
+        </div>
+        <div class="cta">${p.cta}</div>
+        <div class="contact-card">
+          <div class="contact-name">📞 ${agent.name}</div>
+          <div class="contact-mobile">${agent.mobile}</div>
+          <div class="contact-brand">🏢 PB Partners</div>
+          <div class="contact-tagline">Ek Rishta Bharose Ka</div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('posterContainer').innerHTML = html;
+  document.getElementById('currentIdx').textContent = currentIdx + 1;
+  document.getElementById('prevBtn').disabled = currentIdx === 0;
+  document.getElementById('nextBtn').disabled = currentIdx === posters.length - 1;
+  buildTabs();
+  buildDots();
+}
+
+function goTo(idx) {
+  currentIdx = idx;
+  renderPoster();
+}
+
+function prev() { if (currentIdx > 0) { currentIdx--; renderPoster(); } }
+function next() { if (currentIdx < posters.length - 1) { currentIdx++; renderPoster(); } }
+
+// ============= ACTIONS =============
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function shareWA() {
+  const p = posters[currentIdx];
+  const agent = getAgent();
+  const text = p.waMessage.replace(/{NAME}/g, agent.name).replace(/{MOBILE}/g, agent.mobile);
+  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+  toast('📲 WhatsApp opening...');
+}
+
+function copyText() {
+  const p = posters[currentIdx];
+  const agent = getAgent();
+  const text = p.waMessage.replace(/{NAME}/g, agent.name).replace(/{MOBILE}/g, agent.mobile);
+  navigator.clipboard.writeText(text).then(() => toast('📋 Copied!')).catch(() => toast('❌ Copy failed'));
+}
+
+async function downloadIt() {
+  toast('💾 Banaa raha hai...');
+  try {
+    const canvas = await html2canvas(document.getElementById('posterCanvas'), {
+      scale: 3, backgroundColor: '#ffffff', logging: false
+    });
+    const link = document.createElement('a');
+    const p = posters[currentIdx];
+    link.download = `${p.category.replace(/\s/g, '-')}-${Date.now()}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    setTimeout(() => toast('✅ Download done!'), 800);
+  } catch (e) {
+    toast('❌ Download failed');
+  }
+}
+
+// ============= SWIPE GESTURE =============
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; });
+document.addEventListener('touchend', e => {
+  const diff = e.changedTouches[0].screenX - touchStartX;
+  if (Math.abs(diff) > 50) {
+    if (diff > 0) prev();
+    else next();
+  }
+});
+
+// ============= EVENTS =============
+document.getElementById('inputName').addEventListener('input', renderPoster);
+document.getElementById('inputMobile').addEventListener('input', renderPoster);
+
+// ============= START =============
+renderPoster();
+</script>
+
+</body>
+</html>
