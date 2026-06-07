@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📅 Daily Engagement - PB Partners</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Poppins', system-ui, sans-serif;
+  background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 100%);
+  min-height: 100vh;
+  padding: 16px 12px 80px;
+}
+
+.header {
+  text-align: center;
+  color: white;
+  margin-bottom: 20px;
+}
+.header h1 { font-size: 24px; font-weight: 900; margin-bottom: 6px; }
+.header p { font-size: 13px; opacity: 0.9; }
+
+.now-banner {
+  background: linear-gradient(135deg, #f59e0b, #ea580c);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin: 0 auto 20px;
+  max-width: 360px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+.now-banner .time { font-size: 13px; opacity: 0.95; font-weight: 700; }
+.now-banner .next { font-size: 16px; font-weight: 900; margin-top: 4px; }
+
+.message-card {
+  background: white;
+  border-radius: 16px;
+  margin: 0 auto 16px;
+  max-width: 360px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.msg-header {
+  padding: 14px 16px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.msg-header.morning { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.msg-header.poster { background: linear-gradient(135deg, #3b82f6, #1e40af); }
+.msg-header.lunch { background: linear-gradient(135deg, #10b981, #047857); }
+.msg-header.evening { background: linear-gradient(135deg, #ef4444, #b91c1c); }
+.msg-header.night { background: linear-gradient(135deg, #6366f1, #4338ca); }
+
+.msg-time {
+  font-size: 18px;
+  font-weight: 900;
+}
+.msg-label {
+  font-size: 11px;
+  opacity: 0.9;
+  font-weight: 600;
+}
+
+.msg-body {
+  padding: 14px 16px;
+  font-size: 14px;
+  color: #1f2937;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  background: #f9fafb;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.msg-actions {
+  padding: 12px 16px;
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  color: white;
+  font-family: inherit;
+}
+.btn:active { transform: scale(0.97); }
+
+.btn-wa {
+  background: linear-gradient(135deg, #25D366, #128C7E);
+}
+.btn-copy {
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+}
+
+.factory-card {
+  background: linear-gradient(135deg, #ec4899, #be185d);
+  border-radius: 16px;
+  padding: 16px;
+  color: white;
+  text-align: center;
+  margin: 20px auto;
+  max-width: 360px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+.factory-card h3 {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+.factory-btn {
+  background: white;
+  color: #be185d;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-weight: 900;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #16a34a;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-weight: 700;
+  z-index: 100;
+  display: none;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+.toast.show { display: block; }
+
+.tip {
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 12px;
+  color: white;
+  max-width: 360px;
+  margin: 16px auto;
+  font-size: 12px;
+  line-height: 1.5;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📅 Daily Engagement</h1>
+  <p>🏢 PB Partners | 5 Daily Touchpoints</p>
+</div>
+
+<!-- Current Time Indicator -->
+<div class="now-banner">
+  <div class="time" id="currentTime">Loading...</div>
+  <div class="next" id="nextAction">Next: Morning Motivation</div>
+</div>
+
+<!-- 8 AM Morning -->
+<div class="message-card">
+  <div class="msg-header morning">
+    <span style="font-size:28px;">🌅</span>
+    <div>
+      <div class="msg-time">8:00 AM</div>
+      <div class="msg-label">MORNING MOTIVATION</div>
+    </div>
+  </div>
+  <div class="msg-body" id="msg1">🌅 *शुभ सकाळ Team!*
+
+नवीन दिवस, नवीन goals! 💪
+
+आजचे focus:
+✅ 3 face-to-face meetings
+✅ 5 follow-up calls
+✅ 2 family insurance pitches
+
+💡 *Today's Tip:*
+Customer ko WhatsApp Status pe daily content share karein!
+
+🎨 *Status Factory:*
+https://aipartnerhubs-cloud.github.io/Agent-Engagement-System/status_factory.html
+
+Have a productive day! 🚀
+
+- Prashant Chandratre
+PB Partners | Ek Rishta Bharose Ka</div>
+  <div class="msg-actions">
+    <button class="btn btn-copy" onclick="copyMsg('msg1')">📋 Copy</button>
+    <button class="btn btn-wa" onclick="shareMsg('msg1')">📲 Share</button>
+  </div>
+</div>
+
+<!-- 9 AM Poster -->
+<div class="message-card">
+  <div class="msg-header poster">
+    <span style="font-size:28px;">🎨</span>
+    <div>
+      <div class="msg-time">9:00 AM</div>
+      <div class="msg-label">DAILY POSTER REMINDER</div>
+    </div>
+  </div>
+  <div class="msg-body" id="msg2">🎨 *Aaj Ka Marketing Poster Ready!*
+
+Team, aaj ka focus category:
+🚗 *CAR INSURANCE*
+
+📱 *Status Factory Open Karein:*
+https://aipartnerhubs-cloud.github.io/Agent-Engagement-System/status_factory.html
+
+✏️ *Steps:*
+1. Link open karein
+2. Apna naam aur mobile daalein (ek baar)
+3. CAR category select karein
+4. "📲 Share to WhatsApp" click karein
+5. 10 customers ko bhejein!
+
+🎯 *Today's Target:*
+Har agent kam se kam 10 customer contact!
+
+💪 Let's make this day count!
+
+- PB Partners</div>
+  <div class="msg-actions">
+    <button class="btn btn-copy" onclick="copyMsg('msg2')">📋 Copy</button>
+    <button class="btn btn-wa" onclick="shareMsg('msg2')">📲 Share</button>
+  </div>
+</div>
+
+<!-- 12 PM Lunch -->
+<div class="message-card">
+  <div class="msg-header lunch">
+    <span style="font-size:28px;">🕐</span>
+    <div>
+      <div class="msg-time">12:00 PM</div>
+      <div class="msg-label">MID-DAY CHECK-IN</div>
+    </div>
+  </div>
+  <div class="msg-body" id="msg3">🕐 *Lunch Time Check-In!*
+
+Half day done! 🎯
+
+✅ Aapne aaj kitne quotes generate kiye?
+✅ Kitne follow-up calls kiye?
+✅ Kya Status Factory use kiya?
+
+📊 *Reply karein:*
+1️⃣ Done (5+ quotes)
+2️⃣ In Progress (2-4 quotes)
+3️⃣ Need Help (kuch nahi hua)
+
+💡 *Quick Win Idea:*
+Lunch ke baad 1 family/friend ko insurance benefits share karein!
+
+🎨 *Status Factory:*
+https://aipartnerhubs-cloud.github.io/Agent-Engagement-System/status_factory.html
+
+Lunch enjoy karein, phir back to work! 💪
+
+- PB Partners</div>
+  <div class="msg-actions">
+    <button class="btn btn-copy" onclick="copyMsg('msg3')">📋 Copy</button>
+    <button class="btn btn-wa" onclick="shareMsg('msg3')">📲 Share</button>
+  </div>
+</div>
+
+<!-- 6 PM Evening -->
+<div class="message-card">
+  <div class="msg-header evening">
+    <span style="font-size:28px;">🌆</span>
+    <div>
+      <div class="msg-time">6:00 PM</div>
+      <div class="msg-label">EVENING PUSH</div>
+    </div>
+  </div>
+  <div class="msg-body" id="msg4">🌆 *Shaam Ka Last Push!*
+
+Last 2-3 hours of opportunity! ⏰
+
+🎯 *Today's Final Push Checklist:*
+✅ 5 pending calls clear karein
+✅ 2 customers ko closing pitch
+✅ 1 family meeting fix karein
+✅ Status Factory se 1 poster send
+
+💪 *Don't let today end without action!*
+
+📱 *Quick Tools:*
+🎨 Status Factory:
+https://aipartnerhubs-cloud.github.io/Agent-Engagement-System/status_factory.html
+
+🌟 *Today's Story:*
+"Ek customer ne kal poori family ke liye health policy li - sirf 1 follow-up call ne kamaal kar diya!"
+
+Aap kab? 🚀
+
+- PB Partners</div>
+  <div class="msg-actions">
+    <button class="btn btn-copy" onclick="copyMsg('msg4')">📋 Copy</button>
+    <button class="btn btn-wa" onclick="shareMsg('msg4')">📲 Share</button>
+  </div>
+</div>
+
+<!-- 9 PM Night -->
+<div class="message-card">
+  <div class="msg-header night">
+    <span style="font-size:28px;">🌙</span>
+    <div>
+      <div class="msg-time">9:00 PM</div>
+      <div class="msg-label">DAY WRAP-UP</div>
+    </div>
+  </div>
+  <div class="msg-body" id="msg5">🌙 *Day Wrap-Up Time!*
+
+Aaj kaisa raha aapka din? 
+
+📊 *Reply karein:*
+1️⃣ Bahut acha (5+ leads)
+2️⃣ Theek tha (2-4 leads)
+3️⃣ Improvement needed (0-1 leads)
+
+🏆 *Today's Top Performer:*
+[Will be announced tomorrow!]
+
+💡 *Tomorrow's Preparation:*
+✅ Aaj ke customers ki list banayein
+✅ Tomorrow ke 5 priority customers fix
+✅ Status Factory ka aaj ka poster ready rakhein
+✅ Achi neend lein 😴
+
+🎯 *Tomorrow's Goal:*
+Har agent → 5 quotes minimum!
+
+🌟 *Inspirational Quote:*
+"Success is not final, failure is not fatal: 
+It is the courage to continue that counts."
+
+Good night team! Kal phir milte hain! 🌙
+
+- Prashant Chandratre
+PB Partners</div>
+  <div class="msg-actions">
+    <button class="btn btn-copy" onclick="copyMsg('msg5')">📋 Copy</button>
+    <button class="btn btn-wa" onclick="shareMsg('msg5')">📲 Share</button>
+  </div>
+</div>
+
+<!-- Status Factory Link Card -->
+<div class="factory-card">
+  <h3>🎨 Status Factory</h3>
+  <p style="font-size:13px; opacity:0.95;">6 ready-made posters with edit option</p>
+  <a href="https://aipartnerhubs-cloud.github.io/Agent-Engagement-System/status_factory.html" target="_blank" class="factory-btn">
+    Open Now →
+  </a>
+</div>
+
+<!-- Tips -->
+<div class="tip">
+  💡 <b>How to Use:</b><br>
+  1. Yeh page bookmark karo<br>
+  2. Har time slot pe message copy/share karo<br>
+  3. Agent groups mein paste karo<br>
+  4. Status Factory link sab ko mile<br>
+  5. Daily routine ban jaayega!
+</div>
+
+<div class="tip">
+  🎯 <b>Pro Tip:</b><br>
+  Iss page ko phone ke home screen pe save karo:<br>
+  Chrome → 3 dots → "Add to Home Screen"<br>
+  Phir ek tap pe kholo!
+</div>
+
+<div class="toast" id="toast">✅ Done!</div>
+
+<script>
+// Update current time + next action
+function updateTime() {
+  const now = new Date();
+  const hours = now.getHours();
+  const mins = now.getMinutes();
+  const timeStr = `${hours.toString().padStart(2,'0')}:${mins.toString().padStart(2,'0')} | ${now.toLocaleDateString('en-IN', {weekday: 'short', day: 'numeric', month: 'short'})}`;
+  
+  let next = '';
+  if (hours < 8) next = '🌅 Next: 8 AM Morning';
+  else if (hours < 9) next = '🎨 Next: 9 AM Poster';
+  else if (hours < 12) next = '🕐 Next: 12 PM Check-in';
+  else if (hours < 18) next = '🌆 Next: 6 PM Push';
+  else if (hours < 21) next = '🌙 Next: 9 PM Wrap';
+  else next = '🌅 Tomorrow: 8 AM Morning';
+  
+  document.getElementById('currentTime').textContent = timeStr;
+  document.getElementById('nextAction').textContent = next;
+}
+updateTime();
+setInterval(updateTime, 60000);
+
+// Toast
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// Copy message
+function copyMsg(id) {
+  const text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    toast('📋 Copied! Group mein paste karo');
+  });
+}
+
+// Share to WhatsApp
+function shareMsg(id) {
+  const text = document.getElementById(id).textContent;
+  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+}
+</script>
+
+</body>
+</html>
